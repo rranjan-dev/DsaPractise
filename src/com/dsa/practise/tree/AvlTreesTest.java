@@ -85,6 +85,7 @@ class AvlTree {
         return y;
     }
 
+    // insertNode(root, data) will return root reference as after every insertion followed by re-balancing root may change
     void insertNode(int data) {
         root = insertNode(root, data);
     }
@@ -98,10 +99,14 @@ class AvlTree {
         else if (data > node.data)
             node.right = insertNode(node.right, data);
         else
-            return node;//duplicates
+            return node;
+        //duplicates not allowed. so we don't do any insertion.
+        // We just return the node i.e.root node as it is and assign it to root node reference itself in the caller function
+        // basically doing nothing in case of duplicate.
 
         //balacing
-        node.ht = 1 + Math.max(height(node.left), height(node.right));
+        node.ht = 1 + Math.max(height(node.left), height(node.right)); // height of a node is calculated as  the difference of height of left and right subtree +1.
+        // here we are calculating the height of a subtree by
         int bf = getBalance(node);
         if (bf > 1 && data < node.left.data) //LL case
             return rightRotation(node);
